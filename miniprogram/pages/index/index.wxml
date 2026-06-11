@@ -1,0 +1,72 @@
+<view class="container">
+  <view class="header">
+    <view class="title-section">
+      <text class="main-title">校园投票</text>
+      <text class="sub-title">发现身边的热门话题</text>
+    </view>
+    <view class="stats">
+      <view class="stat-item">
+        <text class="stat-num">{{totalVotes}}</text>
+        <text class="stat-label">投票总数</text>
+      </view>
+      <view class="stat-divider"></view>
+      <view class="stat-item">
+        <text class="stat-num">{{activeVotes}}</text>
+        <text class="stat-label">进行中</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="filter-bar">
+    <view class="filter-item {{currentFilter === 'all' ? 'active' : ''}}" bindtap="setFilter" data-filter="all">全部</view>
+    <view class="filter-item {{currentFilter === 'active' ? 'active' : ''}}" bindtap="setFilter" data-filter="active">进行中</view>
+    <view class="filter-item {{currentFilter === 'ended' ? 'active' : ''}}" bindtap="setFilter" data-filter="ended">已结束</view>
+  </view>
+
+  <view class="vote-list">
+    <view wx:for="{{voteList}}" wx:key="_id" class="vote-card">
+      <view class="vote-main" bindtap="goToDetail" data-id="{{item._id}}">
+        <view class="vote-header">
+          <view class="avatar">
+            <text class="avatar-text">{{item.creatorName ? item.creatorName.charAt(0) : '?'}}</text>
+          </view>
+          <view class="creator-info">
+            <text class="creator-name">{{item.creatorName || '匿名用户'}}</text>
+            <text class="create-time">{{formatTime(item.createTime)}}</text>
+          </view>
+          <view class="status-tag {{item.status === 'active' ? 'active' : 'ended'}}">
+            {{item.status === 'active' ? '进行中' : '已结束'}}
+          </view>
+        </view>
+        <view class="vote-content">
+          <text class="vote-title">{{item.title}}</text>
+          <text class="vote-desc">{{item.description}}</text>
+        </view>
+        <view class="vote-footer">
+          <view class="vote-stats">
+            <view class="stat">
+              <text class="icon">👥</text>
+              <text>{{item.totalVoters}} 人参与</text>
+            </view>
+            <view class="stat">
+              <text class="icon">📊</text>
+              <text>{{item.options ? item.options.length : 0}} 个选项</text>
+            </view>
+          </view>
+          <view class="arrow">→</view>
+        </view>
+      </view>
+      <view class="vote-actions">
+        <view class="action-btn delete-btn" bindtap="deleteVote" data-id="{{item._id}}">
+          <text>删除</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{voteList.length === 0}}" class="empty-state">
+    <text class="empty-icon">📭</text>
+    <text class="empty-text">暂无投票</text>
+    <text class="empty-hint">点击下方按钮发起第一个投票吧</text>
+  </view>
+</view>

@@ -1,0 +1,72 @@
+<view class="container">
+  <view wx:if="{{vote}}" class="vote-detail">
+    <view class="vote-header">
+      <view class="avatar">
+        <text class="avatar-text">{{vote.creatorName ? vote.creatorName.charAt(0) : '?'}}</text>
+      </view>
+      <view class="creator-info">
+        <text class="creator-name">{{vote.creatorName || '匿名用户'}}</text>
+        <text class="create-time">{{formatTime(vote.createTime)}} 创建</text>
+      </view>
+      <view class="status-tag {{vote.status === 'active' ? 'active' : 'ended'}}">
+        {{vote.status === 'active' ? '进行中' : '已结束'}}
+      </view>
+    </view>
+
+    <view class="vote-title">{{vote.title}}</view>
+    <view wx:if="{{vote.description}}" class="vote-desc">{{vote.description}}</view>
+
+    <view class="vote-meta">
+      <view class="meta-item">
+        <text class="meta-icon">👥</text>
+        <text>{{vote.totalVoters}} 人参与</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-icon">📊</text>
+        <text>{{vote.voteType === 'single' ? '单选' : '多选'}}</text>
+      </view>
+      <view wx:if="{{vote.isAnonymous}}" class="meta-item">
+        <text class="meta-icon">🔒</text>
+        <text>匿名投票</text>
+      </view>
+    </view>
+
+    <view class="options-section">
+      <view wx:for="{{vote.options}}" wx:key="index" class="option-card" bindtap="selectOption" data-index="{{index}}">
+        <view class="option-content">
+          <view class="option-radio {{selectedOptions.includes(index) ? 'selected' : ''}}">
+            <view class="radio-inner"></view>
+          </view>
+          <text class="option-text">{{item.text}}</text>
+        </view>
+        <view class="option-stats">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{getPercentage(item.votes)}}%"></view>
+          </view>
+          <text class="percentage">{{getPercentage(item.votes)}}%</text>
+          <text class="vote-count">({{item.votes}}票)</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{vote.status === 'active' && !hasVoted}}" class="vote-btn" bindtap="submitVote">
+      <text>提交投票</text>
+    </view>
+
+    <view wx:if="{{hasVoted}}" class="voted-hint">
+      <text>✓ 您已参与投票</text>
+    </view>
+
+    <view class="share-section">
+      <view class="share-btn" bindtap="shareVote">
+        <text class="share-icon">📤</text>
+        <text>分享投票</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="loading-state">
+    <text class="loading-icon">⏳</text>
+    <text>加载中...</text>
+  </view>
+</view>

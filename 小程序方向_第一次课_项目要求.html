@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目实训（一）小程序方向 — 第一次课项目要求</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --accent-game: #dc2626;
+      --accent-tool: #059669;
+      --accent-social: #7c3aed;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --warning-bg: #fef3c7;
+      --warning-text: #78350f;
+      --warning-border: #f59e0b;
+      --new-bg: #ecfdf5;
+      --new-text: #065f46;
+      --new-border: #059669;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 3px solid var(--primary);
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .notice {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      color: var(--warning-text);
+      font-size: 0.95rem;
+    }
+    .notice strong { color: #92400e; }
+
+    .section-title {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin: 40px 0 16px 0;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* 方案卡片 */
+    .plan-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .plan-header {
+      padding: 16px 20px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plan-header .icon { font-size: 1.3rem; }
+    .plan-a .plan-header { background: var(--accent-game); }
+    .plan-b .plan-header { background: var(--accent-tool); }
+    .plan-c .plan-header { background: var(--accent-social); }
+
+    .plan-body { padding: 16px 20px; }
+    .plan-desc {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+    }
+
+    .requirement-box {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border-left: 4px solid #94a3b8;
+    }
+    .requirement-box.core {
+      border-left-color: var(--primary);
+      background: #eff6ff;
+    }
+    .requirement-box .label {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .requirement-box ul {
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .requirement-box li { margin-bottom: 4px; }
+
+    .options {
+      background: #ecfdf5;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      color: #065f46;
+    }
+    .options strong { color: #047857; }
+
+    /* 任务步骤 */
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .step-card h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+    .step-card ul {
+      padding-left: 20px;
+    }
+    .step-card li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .step-card .highlight {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* 通用要求 */
+    .checklist {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .checklist h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+    .checklist ul {
+      padding-left: 20px;
+    }
+    .checklist li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media print {
+      body { padding: 20px; background: #fff; }
+      .plan-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>《项目实训（一）》小程序方向 — 第一次课</h1>
+      <p>AI 编程 · 微信小程序 · 云开发</p>
+    </header>
+
+    <div class="notice">
+      <strong>⚠️ 重要说明</strong><br>
+      1. 本次课程为<strong>全新方向</strong>（微信小程序），与之前纯前端项目独立，所有同学从零开始。<br>
+      2. 第一次课核心任务：<strong>环境搭建 + 项目初始化 + 确定方向</strong>，不要求完成完整功能。<br>
+      3. <strong>每人独立完成</strong>一个微信小程序，通过体验版提交验收。<br>
+      4. 开发工具统一使用 <strong>Trae IDE</strong> 进行 AI 辅助编程，微信开发者工具仅用于预览和上传。
+    </div>
+
+    <!-- ======== 课前准备 ======== -->
+    <h2 class="section-title">📋 课前准备（务必在课前完成）</h2>
+
+    <div class="step-card">
+      <h3>一、安装必备软件</h3>
+      <ul>
+        <li><strong>Trae IDE</strong>：<a href="https://www.trae.com.cn/" target="_blank">https://www.trae.com.cn/</a>（国内版）</li>
+        <li><strong>微信开发者工具</strong>：<a href="https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html" target="_blank">官方下载页面</a>（选 Stable 稳定版）</li>
+        <li><strong>Node.js LTS</strong>：<a href="https://nodejs.org/zh-cn/download" target="_blank">https://nodejs.org/zh-cn/download</a>（选 18.x 或 20.x）</li>
+        <li><strong>Git for Windows</strong>：<a href="https://git-scm.com/download/win" target="_blank">https://git-scm.com/download/win</a></li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <h3>二、注册微信小程序账号</h3>
+      <ul>
+        <li>访问 <a href="https://mp.weixin.qq.com/wxopen/waregister?action=step1" target="_blank">https://mp.weixin.qq.com</a></li>
+        <li>选择<strong>「小程序」</strong>→ 主体类型选<strong>「个人」</strong></li>
+        <li>完成实名认证（需身份证 + 手机号 + 微信扫码）</li>
+        <li><strong>小程序类目</strong>选「其他」，<strong>注册国家/地区</strong>选「中国大陆」</li>
+        <li>记录 <span class="highlight">AppID</span>（wx 开头的一串字符），创建项目时必须用到</li>
+      </ul>
+    </div>
+
+    <!-- ======== 课堂任务 ======== -->
+    <h2 class="section-title">🛠️ 课堂任务（第一次课完成目标）</h2>
+
+    <div class="step-card">
+      <h3>任务一：创建微信小程序项目</h3>
+      <ul>
+        <li>打开微信开发者工具 → 新建项目 → 填写 AppID</li>
+        <li><strong>后端服务</strong>选择「微信云开发」</li>
+        <li><strong>模板</strong>选择「云开发基础模板（官方）」</li>
+        <li>项目目录建议放在 <code>E:\code\miniapp-xxx</code> 等<strong>无中文无空格</strong>的路径</li>
+        <li>创建成功后，左上角点击<strong>「云开发」</strong>按钮，开通免费云开发环境</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <h3>任务二：Trae 与微信开发者工具联动</h3>
+      <ul>
+        <li>在 Trae 中打开刚才创建的项目目录（同一个文件夹）</li>
+        <li>在 Trae 中修改 <code>miniprogram/pages/index/index.wxml</code> 中的文字</li>
+        <li>按 <strong>Ctrl+S</strong> 保存</li>
+        <li>切换回微信开发者工具，确认模拟器自动刷新并显示改动</li>
+        <li>联动成功标志：Trae 改代码 → 微信工具自动编译预览</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <h3>任务三：确定项目方向（个人自选）</h3>
+      <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 12px;">
+        以下三个方向任选其一。每个方向只规定<strong>核心机制</strong>，具体玩法、主题、视觉风格由你自行发挥创意。
+      </p>
+    </div>
+
+    <!-- ======== 方向一 ======== -->
+    <h2 class="section-title">🎮 方向一：轻量小游戏</h2>
+    <div class="plan-card plan-a">
+      <div class="plan-header">
+        <span class="icon">🎮</span>
+        <span>方向一：轻量小游戏</span>
+      </div>
+      <div class="plan-body">
+        <p class="plan-desc">利用微信小程序的触摸交互和本地存储能力，做一款即开即玩的轻量游戏。适合喜欢游戏、对交互逻辑感兴趣的同学。</p>
+
+        <div class="requirement-box core">
+          <div class="label">核心机制（必须实现）</div>
+          <ul>
+            <li>有明确的<strong>游戏目标</strong>（如得分、通关、存活时间）</li>
+            <li>有<strong>用户输入响应</strong>（点击、滑动、长按等）</li>
+            <li>有<strong>胜负或结束判定</strong>（游戏何时结束、如何算赢/输）</li>
+            <li>有<strong>分数或进度记录</strong>，使用云数据库存储</li>
+          </ul>
+        </div>
+
+        <div class="options">
+          <strong>创意参考（不限于此）：</strong>跳跃闯关、记忆翻牌、节奏点击、物理弹射、迷宫探索、合成消除、答题闯关
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== 方向二 ======== -->
+    <h2 class="section-title">🧰 方向二：实用工具</h2>
+    <div class="plan-card plan-b">
+      <div class="plan-header">
+        <span class="icon">🧰</span>
+        <span>方向二：实用工具</span>
+      </div>
+      <div class="plan-body">
+        <p class="plan-desc">解决校园生活中的实际问题，利用云开发实现数据持久化。适合喜欢"做有用东西"、注重实用性的同学。</p>
+
+        <div class="requirement-box core">
+          <div class="label">核心机制（必须实现）</div>
+          <ul>
+            <li>有明确的<strong>输入 → 处理 → 输出</strong>流程</li>
+            <li>数据使用<strong>云数据库</strong>存储，换设备登录数据不丢失</li>
+            <li>至少包含<strong>2个相关功能页面</strong>（如列表页 + 详情页）</li>
+            <li>有基本的<strong>数据增删改查</strong>操作</li>
+          </ul>
+        </div>
+
+        <div class="options">
+          <strong>创意参考（不限于此）：</strong>班级值日排班、课程表管理、寝室水电费分摊、图书馆占座提醒、社团活动报名、二手物品交换、学习打卡记录
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== 方向三 ======== -->
+    <h2 class="section-title">💬 方向三：社交互动</h2>
+    <div class="plan-card plan-c">
+      <div class="plan-header">
+        <span class="icon">💬</span>
+        <span>方向三：社交互动</span>
+      </div>
+      <div class="plan-body">
+        <p class="plan-desc">利用微信小程序的分享能力和云数据库，做一款能让同学之间产生互动的小程序。适合喜欢社交产品、想尝试多人协作场景的同学。</p>
+
+        <div class="requirement-box core">
+          <div class="label">核心机制（必须实现）</div>
+          <ul>
+            <li>有<strong>多人共享的数据</strong>（不是只存在自己手机里的本地数据）</li>
+            <li>有<strong>用户身份区分</strong>（如发起者 vs 参与者）</li>
+            <li>有<strong>互动动作</strong>（投票、报名、留言、组队等）</li>
+            <li>有<strong>结果展示</strong>（排行榜、统计、名单等）</li>
+          </ul>
+        </div>
+
+        <div class="options">
+          <strong>创意参考（不限于此）：</strong>班级匿名投票、活动报名组队、真心话大冒险、校园树洞留言、拼单凑人、失物招领、课堂随机点名
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== 第一次课验收标准 ======== -->
+    <h2 class="section-title">✅ 第一次课验收标准（下课前完成）</h2>
+
+    <div class="checklist">
+      <h3>环境搭建（必须全部完成）</h3>
+      <ul>
+        <li>微信小程序账号注册成功，拿到 AppID</li>
+        <li>微信开发者工具能正常创建项目并运行</li>
+        <li>云开发环境开通成功（显示"免费开发环境"）</li>
+        <li>Trae 能打开项目目录，修改代码后微信工具自动刷新</li>
+        <li>GitHub 仓库已创建，项目代码已 push</li>
+      </ul>
+    </div>
+
+    <div class="checklist" style="margin-top: 20px;">
+      <h3>项目初始化（至少完成）</h3>
+      <ul>
+        <li>已确定个人项目方向（游戏 / 工具 / 社交互动）</li>
+        <li>已在 Trae 中向 AI 描述项目需求，生成初步页面结构</li>
+        <li>至少完成 <strong>1 个可运行的页面</strong>（有基本界面，能显示内容）</li>
+        <li>GitHub README 已更新，写明项目名称、方向、个人姓名</li>
+      </ul>
+    </div>
+
+    <!-- ======== 提交要求 ======== -->
+    <h2 class="section-title">📤 提交要求</h2>
+
+    <div class="checklist">
+      <h3>下课前提交以下内容</h3>
+      <ul>
+        <li><strong>GitHub 仓库链接</strong>（代码已 push）</li>
+        <li><strong>项目方向确认</strong>（一句话说明做什么）</li>
+        <li><strong>体验版二维码截图</strong>（证明已上传体验版，可选）</li>
+      </ul>
+    </div>
+
+    <!-- ======== 评分标准 ======== -->
+    <h2 class="section-title">📊 评分标准（第一次课占比 20%）</h2>
+
+    <div class="checklist">
+      <ul>
+        <li><strong>环境搭建完成度（40%）</strong>：账号、工具、云开发、Trae 联动是否全部就绪</li>
+        <li><strong>项目初始化质量（30%）</strong>：方向是否明确、页面是否有基本雏形</li>
+        <li><strong>代码规范（20%）</strong>：GitHub 提交记录是否清晰、README 是否完整</li>
+        <li><strong>AI 工具使用（10%）</strong>：是否有效利用 Trae AI 辅助编程</li>
+      </ul>
+    </div>
+
+    <footer>
+      <p>福州软件职业技术学院 · 《项目实训（一）》人工智能系统应用实训</p>
+      <p>如有问题，请在学习群中提问或联系任课教师</p>
+    </footer>
+  </div>
+</body>
+</html>
