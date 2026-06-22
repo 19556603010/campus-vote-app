@@ -1,0 +1,86 @@
+<view class="container">
+  <!-- 顶部资料卡 -->
+  <view class="profile-card">
+    <view class="profile-main" bindtap="openEditModal">
+      <view class="avatar">
+        <image wx:if="{{userInfo.avatarUrl}}" class="avatar-img" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <text wx:else class="avatar-text">{{userInfo.nickName ? userInfo.nickName.charAt(0) : '?'}}</text>
+      </view>
+      <view class="profile-info">
+        <text class="profile-name">{{userInfo.nickName || '未设置昵称'}}</text>
+        <text class="profile-openid" wx:if="{{openidTail}}">ID: ···{{openidTail}}</text>
+        <text class="profile-tip">点击编辑资料 ›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 切换 Tab -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'created' ? 'active' : ''}}" bindtap="switchTab" data-tab="created">我发起的</view>
+    <view class="tab-item {{currentTab === 'voted' ? 'active' : ''}}" bindtap="switchTab" data-tab="voted">我参与的</view>
+  </view>
+
+  <!-- 列表:我发起的 -->
+  <view wx:if="{{currentTab === 'created'}}" class="list">
+    <view wx:if="{{createdList.length === 0 && !loading}}" class="empty">
+      <text class="empty-icon">📭</text>
+      <text class="empty-text">还没有发起过投票</text>
+    </view>
+    <view wx:for="{{createdList}}" wx:key="_id" class="vote-card" bindtap="goToDetail" data-id="{{item._id}}">
+      <view class="vote-title-line">
+        <text class="vote-title">{{item.title}}</text>
+        <text class="status-tag {{item.status === 'active' ? 'active' : 'ended'}}">{{item.status === 'active' ? '进行中' : '已结束'}}</text>
+      </view>
+      <view class="vote-meta-line">
+        <text>{{item.totalVoters || 0}} 人参与</text>
+        <text>·</text>
+        <text>{{item.createTimeStr}}</text>
+        <text wx:if="{{item.commentCount}}" class="meta-comment">💬 {{item.commentCount}}</text>
+      </view>
+    </view>
+    <view wx:if="{{createdHasMore && createdList.length > 0}}" class="loading-more">上拉加载更多</view>
+    <view wx:elif="{{!createdHasMore && createdList.length > 0}}" class="loading-more">— 没有更多了 —</view>
+  </view>
+
+  <!-- 列表:我参与的 -->
+  <view wx:if="{{currentTab === 'voted'}}" class="list">
+    <view wx:if="{{votedList.length === 0 && !loading}}" class="empty">
+      <text class="empty-icon">🗳️</text>
+      <text class="empty-text">还没参与过投票</text>
+    </view>
+    <view wx:for="{{votedList}}" wx:key="_id" class="vote-card" bindtap="goToDetail" data-id="{{item._id}}">
+      <view class="vote-title-line">
+        <text class="vote-title">{{item.title}}</text>
+        <text class="status-tag {{item.status === 'active' ? 'active' : 'ended'}}">{{item.status === 'active' ? '进行中' : '已结束'}}</text>
+      </view>
+      <view class="vote-meta-line">
+        <text>{{item.totalVoters || 0}} 人参与</text>
+        <text>·</text>
+        <text>{{item.createTimeStr}}</text>
+        <text wx:if="{{item.commentCount}}" class="meta-comment">💬 {{item.commentCount}}</text>
+      </view>
+    </view>
+    <view wx:if="{{votedHasMore && votedList.length > 0}}" class="loading-more">上拉加载更多</view>
+    <view wx:elif="{{!votedHasMore && votedList.length > 0}}" class="loading-more">— 没有更多了 —</view>
+  </view>
+
+  <!-- 编辑资料弹层 -->
+  <view wx:if="{{showEditModal}}" class="modal-mask" bindtap="closeEditModal">
+    <view class="modal-body" catchtap="">
+      <view class="modal-title">编辑资料</view>
+      <view class="form-row">
+        <text class="form-label">昵称</text>
+        <input class="form-input" value="{{editingNickName}}" bindinput="onNickInput" maxlength="20" placeholder="请输入昵称" />
+      </view>
+      <view class="form-row">
+        <text class="form-label">头像URL</text>
+        <input class="form-input" value="{{editingAvatarUrl}}" bindinput="onAvatarInput" placeholder="可选:粘贴图片URL" />
+      </view>
+      <view class="form-tip">未填头像时,会使用昵称首字作为头像</view>
+      <view class="modal-actions">
+        <view class="btn-cancel" bindtap="closeEditModal">取消</view>
+        <view class="btn-save" bindtap="saveUserInfo">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

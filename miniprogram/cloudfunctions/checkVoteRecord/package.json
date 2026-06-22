@@ -1,0 +1,9 @@
+{
+  "name": "checkVoteRecord",
+  "version": "1.0.0",
+  "description": "检查用户投票记录",
+  "main": "index.js",
+  "dependencies": {
+    "wx-server-sdk": "~2.6.3"
+  }
+}

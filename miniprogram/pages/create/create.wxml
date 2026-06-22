@@ -1,0 +1,83 @@
+<view class="container">
+  <view class="form-card">
+    <view class="form-title">📝 发起新投票</view>
+    
+    <view class="form-item">
+      <text class="label">封面图片</text>
+      <view class="upload-area" bindtap="chooseImage">
+        <image wx:if="{{coverImage}}" class="upload-image" src="{{coverImage}}" mode="aspectFill"></image>
+        <view wx:else class="upload-placeholder">
+          <text class="upload-icon">📷</text>
+          <text>点击上传封面图</text>
+        </view>
+      </view>
+      <text class="upload-hint">（可选，支持 JPG、PNG 格式）</text>
+    </view>
+
+    <view class="form-item">
+      <text class="label">投票标题 *</text>
+      <input class="input" placeholder="请输入投票标题" value="{{title}}" bindinput="onTitleInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">投票描述</text>
+      <textarea class="textarea" placeholder="简单描述一下这个投票（可选）" value="{{description}}" bindinput="onDescInput" />
+    </view>
+
+    <view class="form-item">
+      <text class="label">投票选项 *</text>
+      <view class="options-list">
+        <view wx:for="{{options}}" wx:key="index" class="option-item">
+          <view class="option-index">{{index + 1}}</view>
+          <input class="option-input" placeholder="请输入选项{{index + 1}}" value="{{item}}" bindinput="onOptionInput" data-index="{{index}}" />
+          <view wx:if="{{options.length > 2}}" class="option-delete" bindtap="deleteOption" data-index="{{index}}">×</view>
+        </view>
+      </view>
+      <view wx:if="{{options.length < 6}}" class="add-option" bindtap="addOption">
+        <text class="add-icon">+</text>
+        <text>添加选项</text>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="label-row">
+        <text class="label">投票类型</text>
+        <text class="hint">（默认单选）</text>
+      </view>
+      <view class="radio-group">
+        <view class="radio-item {{voteType === 'single' ? 'active' : ''}}" bindtap="setVoteType" data-type="single">
+          <view class="radio-circle"></view>
+          <text>单选</text>
+        </view>
+        <view class="radio-item {{voteType === 'multiple' ? 'active' : ''}}" bindtap="setVoteType" data-type="multiple">
+          <view class="radio-circle"></view>
+          <text>多选</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="form-item">
+      <view class="label-row">
+        <text class="label">结束时间</text>
+        <text class="hint">（可选，不填则永久有效）</text>
+      </view>
+      <picker mode="date" value="{{endDate}}" bindchange="onDateChange">
+        <view class="picker-input">
+          <text>{{endDate || '选择结束日期'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+
+    <view class="form-item">
+      <view class="switch-item">
+        <text class="label">匿名投票</text>
+        <switch class="switch" checked="{{isAnonymous}}" bindchange="onAnonymousChange" color="#7c3aed" />
+      </view>
+    </view>
+
+    <view class="submit-btn" bindtap="submitVote">
+      <text>发布投票</text>
+    </view>
+  </view>
+</view>

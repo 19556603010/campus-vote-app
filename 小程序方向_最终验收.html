@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目实训（一）小程序方向 — 最终验收</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --accent-game: #dc2626;
+      --accent-tool: #059669;
+      --accent-social: #7c3aed;
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --warning-bg: #fef3c7;
+      --warning-text: #78350f;
+      --warning-border: #f59e0b;
+      --new-bg: #ecfdf5;
+      --new-text: #065f46;
+      --new-border: #059669;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding-bottom: 24px;
+      border-bottom: 3px solid var(--primary);
+    }
+    header h1 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .notice {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 32px;
+      color: var(--warning-text);
+      font-size: 0.95rem;
+    }
+    .notice strong { color: #92400e; }
+
+    .section-title {
+      font-size: 1.25rem;
+      color: var(--primary);
+      margin: 40px 0 16px 0;
+      padding-left: 10px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* 方案卡片 */
+    .plan-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .plan-header {
+      padding: 16px 20px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .plan-header .icon { font-size: 1.3rem; }
+    .plan-a .plan-header { background: var(--accent-game); }
+    .plan-b .plan-header { background: var(--accent-tool); }
+    .plan-c .plan-header { background: var(--accent-social); }
+
+    .plan-body { padding: 16px 20px; }
+    .plan-desc {
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-size: 0.92rem;
+    }
+
+    .requirement-box {
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      border-left: 4px solid #94a3b8;
+    }
+    .requirement-box.core {
+      border-left-color: var(--primary);
+      background: #eff6ff;
+    }
+    .requirement-box .label {
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .requirement-box ul {
+      padding-left: 18px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    .requirement-box li { margin-bottom: 4px; }
+
+    /* 任务步骤 */
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .step-card h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+    .step-card ul {
+      padding-left: 20px;
+    }
+    .step-card li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+    .step-card .highlight {
+      background: #dbeafe;
+      color: #1e40af;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    /* 通用要求 */
+    .checklist {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .checklist h3 {
+      color: var(--primary);
+      margin-bottom: 12px;
+      font-size: 1.05rem;
+    }
+    .checklist ul {
+      padding-left: 20px;
+    }
+    .checklist li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media print {
+      body { padding: 20px; background: #fff; }
+      .plan-card { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>《项目实训（一）》小程序方向 — 最终验收</h1>
+      <p>AI 编程 · 微信小程序 · 云开发</p>
+    </header>
+
+    <div class="notice">
+      <strong>️ 最终验收说明</strong><br>
+      1. 本次课为<strong>最终验收</strong>，课程结束后项目不再计入学分，后续优化由学生自行完成。<br>
+      2. <strong>前两次课未完成的同学，优先补齐前两次课要求</strong>，再推进本次课内容。<br>
+      3. 开发工具统一使用 <strong>Trae IDE</strong> 进行 AI 辅助编程，微信开发者工具仅用于预览和上传。<br>
+      4. 每人独立完成一个微信小程序，通过体验版提交验收。
+    </div>
+
+    <!-- ======== 前两次课要求回顾 ======== -->
+    <h2 class="section-title"> 前两次课要求回顾（未完成者必须补齐）</h2>
+
+    <div class="step-card">
+      <h3>第一次课要求（环境 + 初始化）</h3>
+      <ul>
+        <li>微信小程序账号注册成功，拿到 AppID</li>
+        <li>微信开发者工具能正常创建项目并运行</li>
+        <li>云开发环境开通成功（显示"免费开发环境"）</li>
+        <li>Trae 能打开项目目录，修改代码后微信工具自动刷新</li>
+        <li>GitHub 仓库已创建，项目代码已 push</li>
+        <li>已确定个人项目方向（游戏 / 工具 / 社交互动）</li>
+        <li>至少完成 <strong>1 个可运行的页面</strong>（有基本界面，能显示内容）</li>
+      </ul>
+    </div>
+
+    <div class="step-card">
+      <h3>第二次课要求（核心功能 + 云数据库）</h3>
+      <ul>
+        <li><strong>游戏方向</strong>：游戏主循环跑通、计分系统、分数写入云数据库、≥2 个页面</li>
+        <li><strong>工具方向</strong>：添加功能、列表展示、数据上云、≥2 个页面</li>
+        <li><strong>社交方向</strong>：发起功能、参与功能、结果展示、数据上云共享</li>
+        <li>云数据库至少 1 个集合有真实读写记录</li>
+        <li>至少 1 个云函数部署到云端</li>
+        <li>体验版已上传</li>
+      </ul>
+    </div>
+
+    <!-- ======== 最终验收总体目标 ======== -->
+    <h2 class="section-title">🎯 最终验收总体目标</h2>
+
+    <div class="step-card">
+      <h3>三周进度总览</h3>
+      <ul>
+        <li>第一次课：环境就绪 + 1 个空页面 + 确定方向</li>
+        <li>第二次课：核心功能跑通 + 数据进云数据库</li>
+        <li><strong>第三次课（最终验收）：通用能力补齐 + 体验优化 + 完整交付</strong></li>
+      </ul>
+    </div>
+
+    <!-- ======== 通用技术要求 ======== -->
+    <h2 class="section-title">🔧 通用技术要求（所有方向都要实现）</h2>
+
+    <div class="plan-card">
+      <div class="plan-header" style="background: var(--primary);">
+        <span class="icon">⚙️</span>
+        <span>通用能力（三个方向统一要求）</span>
+      </div>
+      <div class="plan-body">
+        <p class="plan-desc">以下能力与具体方向无关，是所有小程序都应该具备的基础设施。</p>
+
+        <div class="requirement-box core">
+          <div class="label">必须实现（下课前验收）</div>
+          <ul>
+            <li><strong>用户登录与身份识别</strong>：
+              <ul style="margin-top: 6px; padding-left: 18px;">
+                <li>调用 <code>wx.getUserProfile</code> 或 <code>wx.login</code> 获取用户信息</li>
+                <li>在云数据库的每条记录中关联用户身份（如 <code>_openid</code> 或昵称）</li>
+                <li>页面能显示"当前用户是谁"（如首页显示昵称或头像）</li>
+              </ul>
+            </li>
+            <li><strong>云存储使用</strong>：
+              <ul style="margin-top: 6px; padding-left: 18px;">
+                <li>至少 1 处使用云存储（如上传图片、下载文件、存储游戏截图）</li>
+                <li>云存储的文件能在小程序内正常访问（显示图片/下载文件）</li>
+              </ul>
+            </li>
+            <li><strong>加载状态与错误处理</strong>：
+              <ul style="margin-top: 6px; padding-left: 18px;">
+                <li>数据加载时显示 <strong>loading 提示</strong>（如"加载中..."）</li>
+                <li>网络请求失败时有<strong>错误提示</strong>（如"加载失败，请重试"）</li>
+                <li>表单提交成功后有<strong>成功反馈</strong>（如"提交成功"toast）</li>
+              </ul>
+            </li>
+            <li><strong>页面数量 ≥ 3</strong>：
+              <ul style="margin-top: 6px; padding-left: 18px;">
+                <li>在第二次课的 2 个页面基础上，至少新增 1 个页面</li>
+                <li>新增页面可以是：个人中心、历史记录、设置页、帮助页等</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="requirement-box">
+          <div class="label">加分项（可选）</div>
+          <ul>
+            <li>有「我的」页面，展示个人数据（如我的记录、我的分数、我的发布）</li>
+            <li>支持分享给微信好友（<code>wx.shareAppMessage</code>）</li>
+            <li>有简单的设置功能（如清除缓存、切换主题）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== 方向特定补充 ======== -->
+    <h2 class="section-title">🎮 方向一：轻量小游戏 — 最终验收补充</h2>
+    <div class="plan-card plan-a">
+      <div class="plan-header">
+        <span class="icon">🎮</span>
+        <span>方向一：轻量小游戏</span>
+      </div>
+      <div class="plan-body">
+        <div class="requirement-box core">
+          <div class="label">在第二次课基础上补充</div>
+          <ul>
+            <li>游戏结束后能<strong>保存截图到云存储</strong>（可选，但推荐）</li>
+            <li>有<strong>历史最高分记录</strong>，显示在首页或游戏结束页</li>
+            <li>游戏过程中有<strong>暂停/继续</strong>功能（或至少有"重新开始"按钮）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title">🧰 方向二：实用工具 — 最终验收补充</h2>
+    <div class="plan-card plan-b">
+      <div class="plan-header">
+        <span class="icon">🧰</span>
+        <span>方向二：实用工具</span>
+      </div>
+      <div class="plan-body">
+        <div class="requirement-box core">
+          <div class="label">在第二次课基础上补充</div>
+          <ul>
+            <li>支持<strong>编辑已有记录</strong>（点击记录能修改内容）</li>
+            <li>支持<strong>删除记录</strong>（有确认提示，防误删）</li>
+            <li>列表页支持<strong>按条件筛选</strong>（如按日期、按分类）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="section-title"> 方向三：社交互动 — 最终验收补充</h2>
+    <div class="plan-card plan-c">
+      <div class="plan-header">
+        <span class="icon">💬</span>
+        <span>方向三：社交互动</span>
+      </div>
+      <div class="plan-body">
+        <div class="requirement-box core">
+          <div class="label">在第二次课基础上补充</div>
+          <ul>
+            <li>支持<strong>分享功能</strong>（能把互动内容分享到微信聊天）</li>
+            <li>有<strong>参与限制</strong>（如每人只能投票一次、不能重复报名）</li>
+            <li>发起者能<strong>查看参与者列表</strong>（如谁投了什么、谁报名了）</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== 最终验收标准 ======== -->
+    <h2 class="section-title">✅ 最终验收标准（下课前完成）</h2>
+
+    <div class="checklist">
+      <h3>功能验收（老师扫码或看录屏）</h3>
+      <ul>
+        <li>用户登录功能正常（页面能显示当前用户信息）</li>
+        <li>云存储有使用（至少 1 处上传/下载文件）</li>
+        <li>加载状态和错误提示完整（不出现"卡死"或"无反馈"）</li>
+        <li>页面数量 ≥ 3，能正常跳转</li>
+        <li>前两次课未完成者：第二次课核心功能已补齐</li>
+      </ul>
+    </div>
+
+    <div class="checklist" style="margin-top: 20px;">
+      <h3>代码验收（检查 GitHub）</h3>
+      <ul>
+        <li>云函数代码结构清晰，有注释说明功能</li>
+        <li>云数据库集合设计合理（字段命名规范）</li>
+        <li>云存储使用逻辑完整（上传→获取 URL→显示）</li>
+        <li>GitHub 提交记录有本周新 commit</li>
+      </ul>
+    </div>
+
+    <!-- ======== 提交要求 ======== -->
+    <h2 class="section-title">📤 提交要求</h2>
+
+    <div class="checklist">
+      <h3>下课前提交以下内容</h3>
+      <ul>
+        <li><strong>GitHub 仓库链接</strong>（代码已 push，含本周新提交）</li>
+        <li><strong>功能演示录屏</strong>（30-60 秒，展示本次课新增功能）</li>
+        <li><strong>体验版二维码截图</strong>（老师添加为体验成员后可扫码验证）</li>
+        <li><strong>前两次课完成情况说明</strong>（如"第一次课已完成，第二次课 XX 功能本周补齐"）</li>
+      </ul>
+    </div>
+
+    <!-- ======== 最终评分标准 ======== -->
+    <h2 class="section-title">📊 最终评分标准（课程总分 100%）</h2>
+
+    <div class="checklist">
+      <h3>三周成绩构成</h3>
+      <ul>
+        <li><strong>第一次课（20%）</strong>：环境搭建 + 项目初始化</li>
+        <li><strong>第二次课（30%）</strong>：核心功能跑通 + 云数据库上线</li>
+        <li><strong>第三次课（50%）</strong>：通用能力补齐 + 体验优化 + 完整交付</li>
+      </ul>
+    </div>
+
+    <div class="checklist" style="margin-top: 20px;">
+      <h3>第三次课（最终验收）评分细则</h3>
+      <ul>
+        <li><strong>通用能力实现（40%）</strong>：用户登录、云存储、错误处理、页面数量</li>
+        <li><strong>方向特定补充（25%）</strong>：游戏/工具/社交的最终验收补充要求</li>
+        <li><strong>前两次课补齐（20%）</strong>：之前未完成的功能是否在本次补齐</li>
+        <li><strong>代码质量（10%）</strong>：结构清晰、命名规范、Git 提交记录完整</li>
+        <li><strong>体验版上传（5%）</strong>：是否成功上传体验版</li>
+      </ul>
+    </div>
+
+    <div class="notice" style="margin-top: 20px; background: var(--new-bg); border-color: var(--new-border); color: var(--new-text);">
+      <strong>📌 课程结束后</strong><br>
+      本次验收为课程最终评分，后续优化由学生自行完成，不再计入学分。<br>
+      鼓励学生继续完善项目，可作为个人作品集或简历项目展示。
+    </div>
+
+    <footer>
+      <p>福州软件职业技术学院 · 《项目实训（一）》人工智能系统应用实训</p>
+      <p>如有问题，请在学习群中提问或联系任课教师</p>
+    </footer>
+  </div>
+</body>
+</html>

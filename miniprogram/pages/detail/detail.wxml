@@ -1,0 +1,136 @@
+<view class="container">
+  <view wx:if="{{!loading && vote}}" class="vote-detail">
+    <view class="vote-header">
+      <view class="avatar">
+        <text class="avatar-text">{{vote.creatorName ? vote.creatorName.charAt(0) : '?'}}</text>
+      </view>
+      <view class="creator-info">
+        <text class="creator-name">{{vote.creatorName || '匿名用户'}}</text>
+        <text class="create-time">{{formatTime(vote.createTime)}} 创建</text>
+      </view>
+      <view class="status-tag {{vote.status === 'active' ? 'active' : 'ended'}}">
+        {{vote.status === 'active' ? '进行中' : '已结束'}}
+      </view>
+    </view>
+
+    <view class="vote-title">{{vote.title}}</view>
+    <view wx:if="{{vote.description}}" class="vote-desc">{{vote.description}}</view>
+
+    <view class="vote-meta">
+      <view class="meta-item">
+        <text class="meta-icon">👥</text>
+        <text>{{vote.totalVoters}} 人参与</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-icon">📊</text>
+        <text>{{vote.voteType === 'single' ? '单选' : '多选'}}</text>
+      </view>
+      <view wx:if="{{vote.isAnonymous}}" class="meta-item">
+        <text class="meta-icon">🔒</text>
+        <text>匿名投票</text>
+      </view>
+    </view>
+
+    <view class="options-section">
+      <view wx:for="{{vote.options}}" wx:key="index" class="option-card" bindtap="selectOption" data-index="{{index}}">
+        <view class="option-content">
+          <view class="option-radio {{selectedOptions.includes(index) ? 'selected' : ''}}">
+            <view class="radio-inner"></view>
+          </view>
+          <text class="option-text">{{item.text}}</text>
+        </view>
+        <view class="option-stats">
+          <view class="progress-bar">
+            <view class="progress-fill" style="width: {{getPercentage(item.votes)}}%"></view>
+          </view>
+          <text class="percentage">{{getPercentage(item.votes)}}%</text>
+          <text class="vote-count">({{item.votes}}票)</text>
+        </view>
+      </view>
+    </view>
+
+    <view wx:if="{{vote.status === 'active' && !hasVoted}}" class="vote-btn" bindtap="submitVote">
+      <text>提交投票</text>
+    </view>
+
+    <view wx:if="{{hasVoted}}" class="voted-hint">
+      <text>✓ 您已参与投票</text>
+    </view>
+
+    <view class="share-section">
+      <view class="share-btn" bindtap="shareVote">
+        <text class="share-icon">📤</text>
+        <text>分享投票</text>
+      </view>
+    </view>
+
+    <!-- 参与者列表 -->
+    <view wx:if="{{vote.status === 'ended' || (!vote.isAnonymous && vote.totalVoters > 0)}}" class="voters-section">
+      <view class="voters-header">
+        <text class="voters-title">👥 参与者</text>
+        <text class="voters-count">{{vote.totalVoters}}人</text>
+      </view>
+      <view wx:if="{{voters.length === 0 && !loadingVoters}}" class="voters-empty">
+        <text>暂无参与者</text>
+      </view>
+      <view wx:for="{{voters}}" wx:key="_id" class="voter-item">
+        <view class="voter-avatar">
+          <text wx:if="{{!item.userAvatar}}" class="voter-avatar-text">{{item.userNickName ? item.userNickName.charAt(0) : '?'}}</text>
+          <image wx:else class="voter-avatar-img" src="{{item.userAvatar}}" mode="aspectFill"></image>
+        </view>
+        <view class="voter-info">
+          <text class="voter-name">{{item.userNickName || '匿名用户'}}</text>
+          <text class="voter-time">{{formatTime(item.voteTime)}}</text>
+        </view>
+        <view class="voter-options">
+          <text class="voter-option" wx:for="{{getOptionText(item.selectedOptions)}}" wx:key="index" wx:for-item="opt">{{opt}}</text>
+        </view>
+      </view>
+      <view wx:if="{{loadingVoters}}" class="voters-loading">加载中...</view>
+    </view>
+
+    <!-- 评论区 -->
+    <view class="comment-section">
+      <view class="comment-header">
+        <text class="comment-title">💬 评论</text>
+        <text class="comment-count">{{commentCount}}条</text>
+      </view>
+
+      <view wx:if="{{comments.length === 0 && !loadingComments}}" class="comment-empty">
+        <text>暂无评论,快来抢沙发~</text>
+      </view>
+
+      <view wx:for="{{comments}}" wx:key="_id" class="comment-item">
+        <view class="comment-avatar">
+          <text wx:if="{{!item.userAvatar}}" class="comment-avatar-text">{{item.userNickName ? item.userNickName.charAt(0) : '?'}}</text>
+          <image wx:else class="comment-avatar-img" src="{{item.userAvatar}}" mode="aspectFill"></image>
+        </view>
+        <view class="comment-body">
+          <view class="comment-meta-line">
+            <text class="comment-name">{{item.userNickName || '匿名用户'}}</text>
+            <text class="comment-time">{{formatTime(item.createTime)}}</text>
+          </view>
+          <text class="comment-content">{{item.content}}</text>
+        </view>
+        <view wx:if="{{item._openid === myOpenId}}" class="comment-delete" catchtap="deleteComment" data-id="{{item._id}}">删除</view>
+      </view>
+
+      <view wx:if="{{loadingComments}}" class="comment-loading">加载中...</view>
+      <view wx:elif="{{hasMoreComments && comments.length > 0}}" class="comment-more" bindtap="loadMoreComments">加载更多</view>
+    </view>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading-state">
+    <text class="loading-icon">⏳</text>
+    <text>加载中...</text>
+  </view>
+
+  <!-- 底部评论输入栏 -->
+  <view class="comment-input-bar" wx:if="{{!loading && vote}}">
+    <view class="comment-input-avatar">
+      <text class="comment-input-avatar-text">{{myNickName ? myNickName.charAt(0) : '?'}}</text>
+    </view>
+    <input class="comment-input" value="{{commentInput}}" bindinput="onCommentInput" bindconfirm="submitComment" placeholder="说点什么吧..." maxlength="500" />
+    <view class="comment-send {{commentInput.length > 0 ? 'active' : ''}}" bindtap="submitComment">发送</view>
+  </view>
+</view>
