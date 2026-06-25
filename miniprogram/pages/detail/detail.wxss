@@ -111,10 +111,21 @@
   border-radius: 16rpx;
   padding: 24rpx;
   margin-bottom: 16rpx;
+  transition: all 0.3s;
 }
 
 .option-card:active {
   background: #f9fafb;
+}
+
+.option-card.selected {
+  border-color: #7c3aed;
+  background: rgba(124, 58, 237, 0.05);
+}
+
+.option-card.selected .option-text {
+  color: #7c3aed;
+  font-weight: 600;
 }
 
 .option-content {

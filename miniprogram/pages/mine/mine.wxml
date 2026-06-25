@@ -1,0 +1,68 @@
+<view class="container">
+  <view class="user-card">
+    <view wx:if="{{isLoggedIn}}" class="user-info" bindtap="changeAvatar">
+      <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      <view class="info">
+        <text class="nickname">{{userInfo.nickName}}</text>
+        <text class="tip">点击更换头像</text>
+      </view>
+      <view class="logout-btn" catchtap="logout">退出</view>
+    </view>
+    <view wx:else class="login-btn" bindtap="doLogin">
+      <text class="login-icon">👤</text>
+      <text class="login-text">点击登录</text>
+    </view>
+  </view>
+
+  <view class="stats-card">
+    <view class="stat-item">
+      <text class="stat-num">{{myVoteCount}}</text>
+      <text class="stat-label">我发起的</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num">{{votedCount}}</text>
+      <text class="stat-label">我参与的</text>
+    </view>
+    <view class="stat-divider"></view>
+    <view class="stat-item">
+      <text class="stat-num">{{isLoggedIn ? '已登录' : '未登录'}}</text>
+      <text class="stat-label">状态</text>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">我发起的投票</text>
+      <view class="create-link" bindtap="goToCreate">
+        <text>+ 发起投票</text>
+      </view>
+    </view>
+    <view wx:if="{{myVotes.length === 0}}" class="empty-list">
+      <text class="empty-icon">📋</text>
+      <text class="empty-text">暂无发起的投票</text>
+    </view>
+    <view wx:else class="vote-list">
+      <view wx:for="{{myVotes}}" wx:key="_id" class="vote-item" bindtap="goToDetail" data-id="{{item._id}}">
+        <text class="vote-title">{{item.title}}</text>
+        <view class="vote-meta">
+          <text class="time">{{formatTime(item.createTime)}}</text>
+          <text class="status {{item.status === 'active' ? 'active' : 'ended'}}">{{item.status === 'active' ? '进行中' : '已结束'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">设置</text>
+    </view>
+    <view class="setting-list">
+      <view class="setting-item" bindtap="clearCache">
+        <text class="setting-icon">🗑️</text>
+        <text class="setting-text">清除缓存</text>
+        <text class="arrow">→</text>
+      </view>
+    </view>
+  </view>
+</view>

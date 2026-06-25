@@ -32,7 +32,7 @@
     </view>
 
     <view class="options-section">
-      <view wx:for="{{vote.options}}" wx:key="index" class="option-card" bindtap="selectOption" data-index="{{index}}">
+      <view wx:for="{{vote.options}}" wx:key="index" class="option-card {{selectedOptions.includes(index) ? 'selected' : ''}}" bindtap="selectOption" data-index="{{index}}">
         <view class="option-content">
           <view class="option-radio {{selectedOptions.includes(index) ? 'selected' : ''}}">
             <view class="radio-inner"></view>

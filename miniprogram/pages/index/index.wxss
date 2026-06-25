@@ -4,6 +4,71 @@
   padding-bottom: 120rpx;
 }
 
+.user-section {
+  margin-bottom: 30rpx;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+}
+
+.user-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.5);
+}
+
+.user-detail {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: white;
+  display: block;
+}
+
+.login-status {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.logout-btn {
+  padding: 8rpx 24rpx;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: white;
+}
+
+.login-prompt {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16rpx;
+  padding: 16rpx 20rpx;
+}
+
+.login-avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  margin-right: 16rpx;
+  border: 2rpx solid rgba(255, 255, 255, 0.5);
+}
+
+.login-text {
+  font-size: 28rpx;
+  color: white;
+}
+
 .header {
   background: linear-gradient(135deg, #7c3aed 0%, #9333ea 100%);
   padding: 60rpx 40rpx 80rpx;

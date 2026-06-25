@@ -15,20 +15,31 @@ Page({
   },
 
   loadVote: function (id) {
-    const vote = app.getVoteById(id)
-    if (vote) {
-      this.setData({
-        vote: vote
-      })
-      this.loadVotedOptions(id)
-    } else {
+    wx.showLoading({ title: '加载中...' })
+    try {
+      const vote = app.getVoteById(id)
+      if (vote) {
+        this.setData({
+          vote: vote
+        })
+        this.loadVotedOptions(id)
+        wx.hideLoading()
+      } else {
+        wx.hideLoading()
+        wx.showToast({
+          title: '投票不存在',
+          icon: 'none'
+        })
+        setTimeout(() => {
+          wx.navigateBack()
+        }, 1500)
+      }
+    } catch (e) {
+      wx.hideLoading()
       wx.showToast({
-        title: '投票不存在',
+        title: '加载失败',
         icon: 'none'
       })
-      setTimeout(() => {
-        wx.navigateBack()
-      }, 1500)
     }
   },
 
@@ -65,18 +76,34 @@ Page({
     if (!vote || vote.status !== 'active' || hasVoted) return
 
     const index = e.currentTarget.dataset.index
+    const optionText = vote.options[index].text
     
     if (vote.voteType === 'single') {
       this.setData({
         selectedOptions: [index]
+      })
+      wx.showToast({
+        title: `已选择「${optionText}」`,
+        icon: 'none',
+        duration: 1000
       })
     } else {
       const selected = [...this.data.selectedOptions]
       const idx = selected.indexOf(index)
       if (idx > -1) {
         selected.splice(idx, 1)
+        wx.showToast({
+          title: `已取消「${optionText}」`,
+          icon: 'none',
+          duration: 1000
+        })
       } else {
         selected.push(index)
+        wx.showToast({
+          title: `已选择「${optionText}」`,
+          icon: 'none',
+          duration: 1000
+        })
       }
       this.setData({
         selectedOptions: selected
@@ -85,8 +112,16 @@ Page({
   },
 
   submitVote: function () {
+    if (!app.globalData.isLoggedIn) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      return
+    }
+
     const { vote, selectedOptions } = this.data
-    
+
     if (selectedOptions.length === 0) {
       wx.showToast({
         title: '请选择至少一个选项',
@@ -95,29 +130,41 @@ Page({
       return
     }
 
-    const newOptions = vote.options.map((opt, idx) => ({
-      ...opt,
-      votes: selectedOptions.includes(idx) ? opt.votes + 1 : opt.votes
-    }))
+    wx.showLoading({ title: '提交中...' })
 
-    const updatedVote = app.updateVote(vote._id, {
-      options: newOptions,
-      totalVoters: vote.totalVoters + 1
-    })
+    try {
+      const newOptions = vote.options.map((opt, idx) => ({
+        ...opt,
+        votes: selectedOptions.includes(idx) ? opt.votes + 1 : opt.votes
+      }))
 
-    if (updatedVote) {
-      this.saveVotedOptions(vote._id, selectedOptions)
-      
-      wx.showToast({
-        title: '投票成功',
-        icon: 'success'
+      const updatedVote = app.updateVote(vote._id, {
+        options: newOptions,
+        totalVoters: vote.totalVoters + 1
       })
-      
-      this.setData({
-        hasVoted: true,
-        vote: updatedVote
-      })
-    } else {
+
+      if (updatedVote) {
+        this.saveVotedOptions(vote._id, selectedOptions)
+        wx.hideLoading()
+        wx.showToast({
+          title: '投票成功',
+          icon: 'success',
+          duration: 2000
+        })
+
+        this.setData({
+          hasVoted: true,
+          vote: updatedVote
+        })
+      } else {
+        wx.hideLoading()
+        wx.showToast({
+          title: '投票失败',
+          icon: 'none'
+        })
+      }
+    } catch (e) {
+      wx.hideLoading()
       wx.showToast({
         title: '投票失败',
         icon: 'none'
@@ -142,5 +189,16 @@ Page({
       title: '点击右上角分享',
       icon: 'none'
     })
+  },
+
+  onShareAppMessage: function () {
+    const { vote } = this.data
+    if (vote) {
+      return {
+        title: vote.title || '帮我投票',
+        path: `/pages/detail/detail?id=${vote._id}`,
+        imageUrl: ''
+      }
+    }
   }
 })

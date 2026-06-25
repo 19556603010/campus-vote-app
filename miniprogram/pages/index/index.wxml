@@ -1,5 +1,19 @@
 <view class="container">
   <view class="header">
+    <view class="user-section">
+      <view wx:if="{{isLoggedIn}}" class="user-info" bindtap="changeAvatar">
+        <image class="user-avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+        <view class="user-detail">
+          <text class="user-name">{{userInfo.nickName}}</text>
+          <text class="login-status">点击更换头像</text>
+        </view>
+        <view class="logout-btn" catchtap="logout">退出</view>
+      </view>
+      <view wx:else class="login-prompt" bindtap="doLogin">
+        <image class="login-avatar" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0NSIgZmlsbD0iI2MzYzRjOSIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iNDgiIHI9IjE4IiBmaWxsPSIjZmZmIi8+PGNpcmNsZSBjeD0iNTAiIGN5PSI1NSIgcj0iMjUiIGZpbGw9IiNmZmYiLz48L3N2Zz4=" mode="aspectFill"></image>
+        <text class="login-text">点击登录</text>
+      </view>
+    </view>
     <view class="title-section">
       <text class="main-title">校园投票</text>
       <text class="sub-title">发现身边的热门话题</text>

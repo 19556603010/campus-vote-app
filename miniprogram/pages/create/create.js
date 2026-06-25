@@ -70,7 +70,15 @@ Page({
 
   submitVote: function () {
     const { title, options } = this.data
-    
+
+    if (!app.globalData.isLoggedIn) {
+      wx.showToast({
+        title: '请先登录',
+        icon: 'none'
+      })
+      return
+    }
+
     if (!title.trim()) {
       wx.showToast({
         title: '请输入投票标题',
@@ -92,26 +100,26 @@ Page({
       title: '发布中...'
     })
 
-    app.addVote({
-      title: title.trim(),
-      description: this.data.description.trim(),
-      options: validOptions.map(opt => ({
-        text: opt.trim(),
-        votes: 0
-      })),
-      voteType: this.data.voteType,
-      endDate: this.data.endDate || null,
-      isAnonymous: this.data.isAnonymous,
-      creatorName: '用户' + Math.floor(Math.random() * 10000)
-    })
+    try {
+      app.addVote({
+        title: title.trim(),
+        description: this.data.description.trim(),
+        options: validOptions.map(opt => ({
+          text: opt.trim(),
+          votes: 0
+        })),
+        voteType: this.data.voteType,
+        endDate: this.data.endDate || null,
+        isAnonymous: this.data.isAnonymous
+      })
 
-    setTimeout(() => {
       wx.hideLoading()
       wx.showToast({
         title: '发布成功',
-        icon: 'success'
+        icon: 'success',
+        duration: 2000
       })
-      
+
       this.setData({
         title: '',
         description: '',
@@ -120,6 +128,12 @@ Page({
         endDate: '',
         isAnonymous: false
       })
-    }, 500)
+    } catch (e) {
+      wx.hideLoading()
+      wx.showToast({
+        title: '发布失败',
+        icon: 'none'
+      })
+    }
   }
 })
